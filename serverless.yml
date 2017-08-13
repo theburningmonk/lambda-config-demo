@@ -1,0 +1,45 @@
+service: 
+  name: lambda-config-demo
+
+provider:
+  name: aws
+  runtime: nodejs6.10
+  stage: dev
+  region: us-east-1
+  versionFunctions: false
+
+  iamRoleStatements: # IAM role statements so that services can be accessed in the AWS account
+    - Effect: 'Allow'
+      Action: 'ssm:GetParameters'
+      Resource: 
+        - Fn::Join:
+            - ''
+            - - 'arn:aws:ssm:us-east-1:'
+              - Ref: AWS::AccountId
+              - ':parameter/foo'
+        - Fn::Join:
+            - ''
+            - - 'arn:aws:ssm:us-east-1:'
+              - Ref: AWS::AccountId
+              - ':parameter/bar'
+    - Effect: 'Allow'
+      Action: 'kms:Decrypt'    
+      Resource: 
+        - Fn::Join:
+            - ''
+            - - 'arn:aws:kms:us-east-1:'
+              - Ref: AWS::AccountId
+              - ':key/bf483645-f92d-447f-a18f-7a39fbafdac9' # change this to your KMS key
+
+  # all the functions in the service will get these env variables
+  environment:
+    foo: foo
+
+functions:
+  withEnvVariable:
+    handler: functions/withEnvVariable.handler
+    environment:
+      bar: bar
+
+  withParamStore:
+    handler: functions/withParamStore.handler

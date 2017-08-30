@@ -14,8 +14,10 @@ provider:
     - Effect: 'Allow'
       Action: 'ssm:GetParameters'
       Resource: 
-        - 'arn:aws:ssm:us-east-1:#{AWS::AccountId}:parameter/foo'
-        - 'arn:aws:ssm:us-east-1:#{AWS::AccountId}:parameter/bar'
+        - 'arn:aws:ssm:#{AWS::Region}:#{AWS::AccountId}:parameter/foo'
+        - 'arn:aws:ssm:#{AWS::Region}:#{AWS::AccountId}:parameter/bar'
+        - 'arn:aws:ssm:#{AWS::Region}:#{AWS::AccountId}:parameter/jet'
+        - 'arn:aws:ssm:#{AWS::Region}:#{AWS::AccountId}:parameter/pack'
     - Effect: 'Allow'
       Action: 'kms:Decrypt'    
       Resource: 

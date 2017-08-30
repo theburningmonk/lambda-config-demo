@@ -1,5 +1,7 @@
-service: 
-  name: lambda-config-demo
+service: lambda-config-demo
+
+plugins:
+ - serverless-pseudo-parameters
 
 provider:
   name: aws
@@ -8,28 +10,17 @@ provider:
   region: us-east-1
   versionFunctions: false
 
-  iamRoleStatements: # IAM role statements so that services can be accessed in the AWS account
+  iamRoleStatements:
     - Effect: 'Allow'
       Action: 'ssm:GetParameters'
       Resource: 
-        - Fn::Join:
-            - ''
-            - - 'arn:aws:ssm:us-east-1:'
-              - Ref: AWS::AccountId
-              - ':parameter/foo'
-        - Fn::Join:
-            - ''
-            - - 'arn:aws:ssm:us-east-1:'
-              - Ref: AWS::AccountId
-              - ':parameter/bar'
+        - 'arn:aws:ssm:us-east-1:#{AWS::AccountId}:parameter/foo'
+        - 'arn:aws:ssm:us-east-1:#{AWS::AccountId}:parameter/bar'
     - Effect: 'Allow'
       Action: 'kms:Decrypt'    
       Resource: 
-        - Fn::Join:
-            - ''
-            - - 'arn:aws:kms:us-east-1:'
-              - Ref: AWS::AccountId
-              - ':key/bf483645-f92d-447f-a18f-7a39fbafdac9' # change this to your KMS key
+        # change this to your KMS key
+        - 'arn:aws:kms:us-east-1:#{AWS::AccountId}:key/bf483645-f92d-447f-a18f-7a39fbafdac9'
 
   # all the functions in the service will get these env variables
   environment:
@@ -43,3 +34,6 @@ functions:
 
   withParamStore:
     handler: functions/withParamStore.handler
+
+  withConfigClient:
+    handler: functions/withConfigClient.handler

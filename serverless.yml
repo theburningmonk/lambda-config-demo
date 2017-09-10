@@ -22,7 +22,7 @@ provider:
       Action: 'kms:Decrypt'    
       Resource: 
         # change this to your KMS key
-        - 'arn:aws:kms:us-east-1:#{AWS::AccountId}:key/bf483645-f92d-447f-a18f-7a39fbafdac9'
+        # - 'arn:aws:kms:us-east-1:#{AWS::AccountId}:key/bf483645-f92d-447f-a18f-7a39fbafdac9'
 
   # all the functions in the service will get these env variables
   environment:

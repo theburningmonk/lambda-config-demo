@@ -1,9 +1,7 @@
-'use strict';
-
-module.exports.handler = (event, context, callback) => {
+module.exports.handler = async (event, context) => {
   let resp = {
     foo: process.env.foo,
     bar: process.env.bar
   };
-  callback(null, resp);
+  return resp;
 };

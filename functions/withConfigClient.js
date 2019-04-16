@@ -1,6 +1,3 @@
-'use strict';
-
-const co           = require('co');
 const configClient = require('../lib/configClient');
 
 const config1 = configClient.loadConfigs(
@@ -10,12 +7,12 @@ const config1 = configClient.loadConfigs(
 const config2 = configClient.loadConfigs(
   [ "jet", "pack" ]); // default cache expiration is 3 mins
 
-module.exports.handler = co.wrap(function* (event, context, callback) {
+module.exports.handler = async (event, context) => {
   let params = [ 
-    yield config1.foo, 
-    yield config1.bar,
-    yield config2.jet,
-    yield config2.pack
+    await config1.foo, 
+    await config1.bar,
+    await config2.jet,
+    await config2.pack
   ];
-  callback(null, params);
-});
+  return params;
+};

@@ -5,7 +5,7 @@ plugins:
 
 provider:
   name: aws
-  runtime: nodejs6.10
+  runtime: nodejs8.10
   stage: dev
   region: us-east-1
   versionFunctions: false
@@ -18,9 +18,9 @@ provider:
         - 'arn:aws:ssm:#{AWS::Region}:#{AWS::AccountId}:parameter/bar'
         - 'arn:aws:ssm:#{AWS::Region}:#{AWS::AccountId}:parameter/jet'
         - 'arn:aws:ssm:#{AWS::Region}:#{AWS::AccountId}:parameter/pack'
-    - Effect: 'Allow'
-      Action: 'kms:Decrypt'    
-      Resource: 
+    # - Effect: 'Allow'
+    #   Action: 'kms:Decrypt'
+    #   Resource: 
         # change this to your KMS key
         # - 'arn:aws:kms:us-east-1:#{AWS::AccountId}:key/f66c6fbb-2c40-4ad5-8096-8512ed0733c5'
 

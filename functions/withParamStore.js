@@ -1,16 +1,12 @@
-'use strict';
-
-const co      = require('co');
-const Promise = require('bluebird');
 const AWS     = require('aws-sdk');
-const ssm     = Promise.promisifyAll(new AWS.SSM());
+const ssm     = new AWS.SSM();
 
-let getParams = co.wrap(function* () {
+let getParams = async () => {
   let req = {
     Names: [ 'foo', 'bar' ],
     WithDecryption: true
   };
-  let resp = yield ssm.getParametersAsync(req);
+  let resp = await ssm.getParameters(req).promise();
 
   let params = {};
   for (let p of resp.Parameters) {
@@ -18,9 +14,9 @@ let getParams = co.wrap(function* () {
   }
 
   return params;
-});
+};
 
-module.exports.handler = co.wrap(function* (event, context, callback) {
-  let params = yield getParams();
-  callback(null, params);
-});
+module.exports.handler = async (event, context) => {
+  let params = await getParams();
+  return params;
+};

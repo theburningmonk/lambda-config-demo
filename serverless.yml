@@ -43,5 +43,5 @@ functions:
   withParamStore:
     handler: functions/withParamStore.handler
 
-  withConfigClient:
-    handler: functions/withConfigClient.handler
+  withMiddleware:
+    handler: functions/withMiddleware.handler
